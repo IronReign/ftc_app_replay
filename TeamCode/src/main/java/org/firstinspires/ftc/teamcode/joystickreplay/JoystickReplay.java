@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.org.firstinspires.ftc.teamcode.joystickreplay;
+package org.firstinspires.ftc.teamcode.joystickreplay;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.*;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.org.firstinspires.ftc.teamcode.joystickreplay;
+package org.firstinspires.ftc.teamcode.joystickreplay;
 
 /**
  * Created by IronReign on 8/18/2018.
