@@ -18,6 +18,7 @@ public class JoystickReplayRecorder extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private List<GamepadPair> log;
     private ControlHandler handler;
+    OutputWriter[] writers = { new JavaOutputWriter() };
 
     @Override
     public void runOpMode() {
@@ -57,10 +58,9 @@ public class JoystickReplayRecorder extends LinearOpMode {
             sleep(100);
         }
 
-        String output = format(log);
-
-        telemetry.addData("BigwheelAutonLog", output);
-        log:logLargeString("BigwheelAutonLog", output);
+        for (OutputWriter writer : writers) {
+            writer.writeOutput(log);
+        }
     }
 
     private static String format(List<GamepadPair> log) {

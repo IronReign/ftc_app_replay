@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.*;
 
+import java.util.List;
+
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
 @Autonomous(name="Joystick Replay", group="Linear Opmode")
@@ -12,6 +14,12 @@ public class JoystickReplay extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private ControlHandler handler = null;
+    private InputReader reader = getInputReader();
+    private List<GamepadPair> log = reader.readInput();
+
+    public InputReader getInputReader() {
+        return new JavaInputReader();
+    }
 
     @Override
     public void runOpMode() {
@@ -40,8 +48,8 @@ public class JoystickReplay extends LinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        for (int i = 0; opModeIsActive() && i < JoystickReplayData.log.size(); i++) {
-            GamepadPair pair = JoystickReplayData.log.get(i);
+        for (int i = 0; opModeIsActive() && i < log.size(); i++) {
+            GamepadPair pair = log.get(i);
             handler.runIteration(pair);
             sleep(100);
         }
