@@ -18,7 +18,7 @@ public class JoystickReplayRecorder extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private List<GamepadPair> log;
     private ControlHandler handler;
-    OutputWriter[] writers = { new JavaOutputWriter() };
+    OutputWriter[] writers = { new JavaOutputWriter(), new FileOutputWriter() };
 
     @Override
     public void runOpMode() {

@@ -18,7 +18,7 @@ public class JoystickReplay extends LinearOpMode {
     private List<GamepadPair> log = reader.readInput();
 
     public InputReader getInputReader() {
-        return new JavaInputReader();
+        return new FileInputReader();
     }
 
     @Override
