@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.org.firstinspires.ftc.teamcode.joystickreplay;
 
 import android.util.Log;
 
@@ -11,16 +11,13 @@ import java.util.List;
 
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
-@TeleOp(name="Big Wheel Auton Recorder", group="Linear Opmode")
-public class BigwheelAutonRecorder extends LinearOpMode {
+@TeleOp(name="Joystick Replay Recorder", group="Linear Opmode")
+public class JoystickReplayRecorder extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive1 = null;
-    private DcMotor leftDrive2 = null;
-    private DcMotor rightDrive1 = null;
-    private DcMotor rightDrive2 = null;
-    List<GamepadPair> log;
+    private List<GamepadPair> log;
+    private ControlHandler handler;
 
     @Override
     public void runOpMode() {
@@ -29,10 +26,10 @@ public class BigwheelAutonRecorder extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive1  = hardwareMap.get(DcMotor.class, "left_drive_1");
-        leftDrive2  = hardwareMap.get(DcMotor.class, "left_drive_2");
-        rightDrive1 = hardwareMap.get(DcMotor.class, "right_drive_1");
-        rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive_2");
+        DcMotor leftDrive1  = hardwareMap.get(DcMotor.class, "left_drive_1");
+        DcMotor leftDrive2  = hardwareMap.get(DcMotor.class, "left_drive_2");
+        DcMotor rightDrive1 = hardwareMap.get(DcMotor.class, "right_drive_1");
+        DcMotor rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive_2");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -41,6 +38,8 @@ public class BigwheelAutonRecorder extends LinearOpMode {
         rightDrive1.setDirection(FORWARD);
         rightDrive2.setDirection(FORWARD);
 
+        handler = new BigwheelControlHandler(leftDrive1, leftDrive2, rightDrive1, rightDrive2,
+                                                runtime, telemetry);
         log = new ArrayList<>();
 
         // Wait for the game to start (driver presses PLAY)
@@ -54,7 +53,7 @@ public class BigwheelAutonRecorder extends LinearOpMode {
             double turn  =  gamepad1.left_stick_x;
             GamepadPair pair = new GamepadPair(gamepad1.left_stick_x, gamepad1.left_stick_y);
             log.add(pair);
-            runIteration(pair);
+            handler.runIteration(pair);
             sleep(100);
         }
 
@@ -62,36 +61,6 @@ public class BigwheelAutonRecorder extends LinearOpMode {
 
         telemetry.addData("BigwheelAutonLog", output);
         log:logLargeString("BigwheelAutonLog", output);
-    }
-
-    public static class GamepadPair {
-        public double x, y;
-        public GamepadPair() {}
-        public GamepadPair(double x, double y) {
-            this.x=x; this.y=y;
-        }
-        @Override
-        public String toString() {
-            return String.format("(X: %.2f, Y: %.2f)", x, y);
-        }
-    }
-
-    public void runIteration(GamepadPair pair) {
-        double drive = -pair.y;
-        double turn  =  pair.x;
-
-        double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
-        leftDrive1.setPower(leftPower);
-        leftDrive2.setPower(leftPower);
-        rightDrive1.setPower(rightPower);
-        rightDrive2.setPower(rightPower);
-
-
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-        telemetry.update();
     }
 
     private static String format(List<GamepadPair> log) {

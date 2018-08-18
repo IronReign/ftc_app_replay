@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.org.firstinspires.ftc.teamcode.joystickreplay;
 
-import org.firstinspires.ftc.teamcode.BigwheelAutonRecorder.GamepadPair;
+public final class JoystickReplayData {
 
-public final class BigwheelAutonData {
-
-    private BigwheelAutonData() {throw new RuntimeException();}
+    private JoystickReplayData() {throw new RuntimeException();}
 
     public static java.util.List<GamepadPair> log = new java.util.ArrayList(120) {{
         add(new GamepadPair(0.0,0.0));
