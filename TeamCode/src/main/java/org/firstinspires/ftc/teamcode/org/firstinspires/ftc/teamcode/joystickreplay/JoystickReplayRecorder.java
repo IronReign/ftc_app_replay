@@ -65,13 +65,11 @@ public class JoystickReplayRecorder extends LinearOpMode {
 
     private static String format(List<GamepadPair> log) {
         StringBuilder str = new StringBuilder(
-                "package org.firstinspires.ftc.teamcode;\n\n" +
+                "package org.firstinspires.ftc.teamcode.joystickreplay;\n\n" +
 
-                        "import org.firstinspires.ftc.teamcode.BigwheelAutonRecorder.GamepadPair;\n\n" +
+                        "public final class JoystickReplayData {\n\n" +
 
-                        "public final class BigwheelAutonData {\n\n" +
-
-                        "\tprivate BigwheelAutonData() {throw new RuntimeException();}\n\n" +
+                        "\tprivate JoystickReplayData() {throw new RuntimeException();}\n\n" +
 
                         "\tpublic static java.util.List<GamepadPair> log = new java.util.ArrayList(").append(log.size()).append(") {{\n");
 
