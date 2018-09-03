@@ -10,7 +10,6 @@ import java.util.List;
 
 public class JavaOutputWriter implements OutputWriter {
 
-
     private static String format(List<GamepadPair> log) {
         StringBuilder str = new StringBuilder(
                 "package org.firstinspires.ftc.teamcode.joystickreplay;\n\n" +
@@ -22,7 +21,10 @@ public class JavaOutputWriter implements OutputWriter {
                         "\tpublic static java.util.List<GamepadPair> log = new java.util.ArrayList(").append(log.size()).append(") {{\n");
 
         for (GamepadPair pair : log) {
-            str.append(             "\t\t\tadd(new GamepadPair(").append(pair.x).append(",").append(pair.y).append("));\n");
+            str.append(             "\t\t\tadd(new GamepadPair(").append(pair.x).append(",").append(pair.y)
+                    .append(",").append(pair.bX).append(",").append(pair.bY)
+                    .append(",").append(pair.bA).append(",").append(pair.bB)
+                    .append("));\n");
         }
 
         return str.append(      "\t}};\n" +

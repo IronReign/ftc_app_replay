@@ -21,7 +21,9 @@ public class FileInputReader implements InputReader {
             List<GamepadPair> log = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 String[] split = line.split(",");
-                log.add(new GamepadPair(parseDouble(split[0]), parseDouble(split[1])));
+                log.add(new GamepadPair(parseDouble(split[0]), parseDouble(split[1]),
+                        split[3].equals("1"), split[4].equals("1"),
+                        split[5].equals("1"), split[6].equals("1")));
             }
             reader.close();
             return log;

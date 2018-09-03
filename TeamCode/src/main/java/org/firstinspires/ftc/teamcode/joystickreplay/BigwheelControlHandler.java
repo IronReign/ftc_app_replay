@@ -19,6 +19,8 @@ public class BigwheelControlHandler implements ControlHandler {
     private final ElapsedTime runtime;
     private final Telemetry telemetry;
 
+    private boolean xHold = false;
+    private int reverse = 1;
 
     public BigwheelControlHandler(DcMotor leftDrive1, DcMotor leftDrive2,
                                   DcMotor rightDrive1, DcMotor rightDrive2,
@@ -33,8 +35,8 @@ public class BigwheelControlHandler implements ControlHandler {
 
     @Override
     public void runIteration(GamepadPair pair) {
-        double drive = -pair.y;
-        double turn  =  pair.x;
+        double drive = reverse * -pair.y;
+        double turn = pair.x;
 
         double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
@@ -44,8 +46,18 @@ public class BigwheelControlHandler implements ControlHandler {
         rightDrive1.setPower(rightPower);
         rightDrive2.setPower(rightPower);
 
+        if(xHold) {
+            if (!pair.bX)
+                xHold = false;
+        } else {
+            xHold = pair.bX;
+            if(xHold) {
+                reverse *= -1;
+            }
+        }
 
         telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Direction", reverse == 1 ? "Forward" : "Backward");
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
         telemetry.update();
     }

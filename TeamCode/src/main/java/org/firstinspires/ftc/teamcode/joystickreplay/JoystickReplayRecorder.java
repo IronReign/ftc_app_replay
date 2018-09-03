@@ -56,7 +56,8 @@ public class JoystickReplayRecorder extends LinearOpMode {
             telemetry.addData("Iteration", "%d", i);
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.left_stick_x;
-            GamepadPair pair = new GamepadPair(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            GamepadPair pair = new GamepadPair(gamepad1.left_stick_x, gamepad1.left_stick_y,
+                    gamepad1.x, gamepad1.y, gamepad1.a, gamepad1.b);
             log.add(pair);
             handler.runIteration(pair);
             sleep(100);
@@ -78,7 +79,10 @@ public class JoystickReplayRecorder extends LinearOpMode {
                         "\tpublic static java.util.List<GamepadPair> log = new java.util.ArrayList(").append(log.size()).append(") {{\n");
 
         for (GamepadPair pair : log) {
-            str.append(             "\t\t\tadd(new GamepadPair(").append(pair.x).append(",").append(pair.y).append("));\n");
+            str.append(             "\t\t\tadd(new GamepadPair(").append(pair.x).append(",").append(pair.y)
+                                            .append(",").append(pair.bX).append(",").append(pair.bY)
+                                            .append(",").append(pair.bA).append(",").append(pair.bB)
+                                            .append("));\n");
         }
 
         return str.append(      "\t}};\n" +

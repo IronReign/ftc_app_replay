@@ -20,7 +20,8 @@ public class FileOutputWriter implements OutputWriter {
             Log.i("ReplayData", "Starting Output");
             PrintWriter writer = new PrintWriter(new FileWriter("/sdcard/FIRST/replayData.txt"));
             for (GamepadPair pair : log) {
-                writer.printf("%f,%f%n", pair.x, pair.y);
+                writer.printf("%f,%f,%d,%d,%d,%d,%n", pair.x, pair.y,
+                        pair.bX?1:0, pair.bY?1:0, pair.bA?1:0, pair.bB?1:0);
             }
             writer.flush();
             writer.close();
